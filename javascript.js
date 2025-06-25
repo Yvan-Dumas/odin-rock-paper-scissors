@@ -9,4 +9,10 @@ function getComputerChoice() {
   }
 }
 
+function getHumanChoice() {
+    return prompt("What do you want to play?");
+}
+
 console.log(getComputerChoice());
+let choice = getHumanChoice();
+console.log(choice);
