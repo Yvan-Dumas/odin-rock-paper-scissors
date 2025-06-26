@@ -10,54 +10,90 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  return prompt("What do you want to play?");
+  return prompt("What do you want to play?").toLowerCase();
 }
 
 function playRound(computerChoice, humanChoice) {
-  
-  console.log("You played " + humanChoice + " and computer played " + computerChoice + ".");
-  
+
+  alert("You played " + humanChoice + " and computer played " + computerChoice + ".");
+
   switch (humanChoice) {
-    case "rock": 
+    case "rock":
       if (computerChoice == "rock") {
-        console.log("tied round!");
+        alert("tied round!");
+        return "tied";
       } else if (computerChoice == "paper") {
-        console.log("You lose, paper beats rock!");
-        computerScore++;
+        alert("You lose, paper beats rock!");
+        return "computer";
       } else {
-        console.log("You win, rock beats scissors!");
-        humanScore++;
+        alert("You win, rock beats scissors!");
+        return "human";
       }
-      break;
 
-    case "paper": 
+    case "paper":
       if (computerChoice == "paper") {
-        console.log("tied round!");
+        alert("tied round!");
+        return "tied";
       } else if (computerChoice == "rock") {
-        console.log("You win, paper beats rock!");
-        humanScore++;
+        alert("You win, paper beats rock!");
+        return "human";
       } else {
-        console.log("You lose, scissors beats paper!");
-        computerScore++;
+        alert("You lose, scissors beats paper!");
+        return "computer";
       }
-      break;
 
-    case "scissors": 
+    case "scissors":
       if (computerChoice == "scissors") {
-        console.log("tied round!");
+        alert("tied round!");
+        return "tied";
       } else if (computerChoice == "paper") {
-        console.log("You win, scissors beats paper!");
-        humanScore++;
+        alert("You win, scissors beats paper!");
+        return "human";
       } else {
-        console.log("You lose, rock beats scissors!");
-        computerScore++;
+        alert("You lose, rock beats scissors!");
+        return "computer";
       }
-      break;
   }
 }
 
-let humanScore = 0;
-let computerScore = 0;
+function playGame() {
+  let humanScore = 0;
+  let computerScore = 0;
+  let round = 0;
 
-const humanChoice = getHumanChoice().toLowerCase();
-const computerChoice = getComputerChoice();
+  while (round < 3) {
+    const humanChoice = getHumanChoice();
+    const computerChoice = getComputerChoice();
+    let result = playRound(computerChoice, humanChoice);
+
+    switch (result) {
+      case "human":
+        humanScore++;
+        round++
+        break;
+
+      case "computer":
+        computerScore++;
+        round++
+        break;
+    }
+    alert("Current score: " + humanScore + ":" + computerScore);
+  }
+
+  if (humanScore > computerScore) {
+    alert("You win! " + humanScore + ":" + computerScore);
+  } else {
+    alert("You lose... " + humanScore + ":" + computerScore);
+  }
+}
+
+do {
+  playGame()
+  let newGame;
+  let yesOrNo = prompt("New game? (yes or no)");
+  if (yesOrNo == "yes") {
+    newGame = true;
+  } else {
+    newGame = false;
+  }
+} while (newGame == true);
