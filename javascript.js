@@ -90,7 +90,7 @@ function playGame() {
 do {
   playGame()
   let newGame;
-  let yesOrNo = prompt("New game? (yes or no)");
+  let yesOrNo = prompt("New game? (yes or no)").toLowerCase();
   if (yesOrNo == "yes") {
     newGame = true;
   } else {
