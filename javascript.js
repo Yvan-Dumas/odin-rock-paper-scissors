@@ -13,81 +13,92 @@ function getHumanChoice() {
   return prompt("What do you want to play?").toLowerCase();
 }
 
-function playRound(computerChoice, humanChoice) {
 
-  alert("You played " + humanChoice + " and computer played " + computerChoice + ".");
+// UI
+const container = document.querySelector("#container");
 
-  switch (humanChoice) {
-    case "rock":
-      if (computerChoice == "rock") {
-        alert("tied round!");
-        return "tied";
-      } else if (computerChoice == "paper") {
-        alert("You lose, paper beats rock!");
-        return "computer";
-      } else {
-        alert("You win, rock beats scissors!");
-        return "human";
-      }
+const buttonRock = document.createElement("button");
+buttonRock.textContent = "Rock";
+const buttonPaper = document.createElement("button");
+buttonPaper.textContent = "Paper";
+const buttonScissors = document.createElement("button");
+buttonScissors.textContent = "Scissors";
 
-    case "paper":
-      if (computerChoice == "paper") {
-        alert("tied round!");
-        return "tied";
-      } else if (computerChoice == "rock") {
-        alert("You win, paper beats rock!");
-        return "human";
-      } else {
-        alert("You lose, scissors beats paper!");
-        return "computer";
-      }
+container.appendChild(buttonRock);
+container.appendChild(buttonPaper);
+container.appendChild(buttonScissors);
 
-    case "scissors":
-      if (computerChoice == "scissors") {
-        alert("tied round!");
-        return "tied";
-      } else if (computerChoice == "paper") {
-        alert("You win, scissors beats paper!");
-        return "human";
-      } else {
-        alert("You lose, rock beats scissors!");
-        return "computer";
-      }
-  }
-}
+
 
 function playGame() {
   let humanScore = 0;
   let computerScore = 0;
   let round = 0;
 
-  while (round < 3) {
-    const humanChoice = getHumanChoice();
+  function playRound(humanChoice) {
     const computerChoice = getComputerChoice();
-    let result = playRound(computerChoice, humanChoice);
 
-    switch (result) {
-      case "human":
-        humanScore++;
-        round++
-        break;
+    const paraChoices = document.createElement("p");
+    paraChoices.textContent = ("You played " + humanChoice + " and computer played " + computerChoice + ".")
+    container.appendChild(paraChoices);
 
-      case "computer":
-        computerScore++;
-        round++
-        break;
+    const paraResult = document.createElement("p");
+    switch (humanChoice) {
+      case "rock":
+        if (computerChoice == "rock") {
+          paraResult.textContent = ("tied round!");
+        } else if (computerChoice == "paper") {
+          paraResult.textContent = ("You lose, paper beats rock!");
+          computerScore++;
+          round++;
+        } else {
+          paraResult.textContent = ("You win, rock beats scissors!");
+          humanScore++;
+          round++;
+        }
+      case "paper":
+        if (computerChoice == "paper") {
+          paraResult.textContent = ("tied round!");
+        } else if (computerChoice == "rock") {
+          paraResult.textContent = ("You win, paper beats rock!");
+          humanScore++;
+          round++;
+        } else {
+          paraResult.textContent = ("You lose, scissors beats paper!");
+          computerScore++;
+          round++;
+        }
+      case "scissors":
+        if (computerChoice == "scissors") {
+          paraResult.textContent = ("tied round!");
+        } else if (computerChoice == "paper") {
+          paraResult.textContent = ("You win, scissors beats paper!");
+          humanScore++;
+          round++;
+        } else {
+          paraResult.textContent = ("You lose, rock beats scissors!");
+          computerScore++;
+          round++;
+        }
     }
-    alert("Current score: " + humanScore + ":" + computerScore);
+    container.appendChild(paraResult);
   }
+
+  const paraScore = document.createElement("p");
+  paraScore.textContent = ("Current score: " + humanScore + ":" + computerScore);
 
   if (humanScore > computerScore) {
-    alert("You win! " + humanScore + ":" + computerScore);
+    paraScore.textContent = ("You win! " + humanScore + ":" + computerScore);
   } else {
-    alert("You lose... " + humanScore + ":" + computerScore);
+    paraScore.textContent = ("You lose... " + humanScore + ":" + computerScore);
   }
+
+  buttonPaper.addEventListener("click", () => playRound("paper"));
+  buttonRock.addEventListener("click", () => playRound("rock"));
+  buttonScissors.addEventListener("click", () => playRound("scissors"));
 }
 
-
+/*
 let newGame;
 do {
   playGame()
@@ -98,3 +109,6 @@ do {
     newGame = false;
   }
 } while (newGame == true);
+*/
+
+playGame();
