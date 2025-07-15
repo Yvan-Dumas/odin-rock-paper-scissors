@@ -28,6 +28,17 @@ container.appendChild(buttonRock);
 container.appendChild(buttonPaper);
 container.appendChild(buttonScissors);
 
+const paraChoices = document.createElement("p");
+const paraResult = document.createElement("p");
+const paraScore = document.createElement("p");
+container.appendChild(paraScore);
+container.appendChild(paraChoices);
+container.appendChild(paraResult);
+
+const buttonNewGame = document.createElement("button");
+buttonNewGame.textContent = "New Game";
+buttonNewGame.style.display = "none";
+container.appendChild(buttonNewGame);
 
 
 function playGame() {
@@ -38,77 +49,86 @@ function playGame() {
   function playRound(humanChoice) {
     const computerChoice = getComputerChoice();
 
-    const paraChoices = document.createElement("p");
     paraChoices.textContent = ("You played " + humanChoice + " and computer played " + computerChoice + ".")
-    container.appendChild(paraChoices);
 
-    const paraResult = document.createElement("p");
+
     switch (humanChoice) {
       case "rock":
         if (computerChoice == "rock") {
           paraResult.textContent = ("tied round!");
         } else if (computerChoice == "paper") {
-          paraResult.textContent = ("You lose, paper beats rock!");
+          paraResult.textContent = ("You lose the round, paper beats rock!");
           computerScore++;
           round++;
         } else {
-          paraResult.textContent = ("You win, rock beats scissors!");
+          paraResult.textContent = ("You win the round, rock beats scissors!");
           humanScore++;
           round++;
         }
+        break;
       case "paper":
         if (computerChoice == "paper") {
           paraResult.textContent = ("tied round!");
         } else if (computerChoice == "rock") {
-          paraResult.textContent = ("You win, paper beats rock!");
+          paraResult.textContent = ("You win the round, paper beats rock!");
           humanScore++;
           round++;
         } else {
-          paraResult.textContent = ("You lose, scissors beats paper!");
+          paraResult.textContent = ("You lose the round, scissors beats paper!");
           computerScore++;
           round++;
         }
+        break;
       case "scissors":
         if (computerChoice == "scissors") {
           paraResult.textContent = ("tied round!");
         } else if (computerChoice == "paper") {
-          paraResult.textContent = ("You win, scissors beats paper!");
+          paraResult.textContent = ("You win the round, scissors beats paper!");
           humanScore++;
           round++;
         } else {
-          paraResult.textContent = ("You lose, rock beats scissors!");
+          paraResult.textContent = ("You lose the round, rock beats scissors!");
           computerScore++;
           round++;
         }
+        break;
     }
-    container.appendChild(paraResult);
-  }
 
-  const paraScore = document.createElement("p");
-  paraScore.textContent = ("Current score: " + humanScore + ":" + computerScore);
+    paraScore.textContent = ("Current score: " + humanScore + ":" + computerScore);
 
-  if (humanScore > computerScore) {
-    paraScore.textContent = ("You win! " + humanScore + ":" + computerScore);
-  } else {
-    paraScore.textContent = ("You lose... " + humanScore + ":" + computerScore);
+
+    if (round == 3) {
+      if (humanScore > computerScore) {
+        paraScore.textContent = ("You win! " + humanScore + ":" + computerScore);
+      } else {
+        paraScore.textContent = ("You lose... " + humanScore + ":" + computerScore);
+      }
+      buttonNewGame.style.display = "inline-block";
+      buttonRock.disabled = true;
+      buttonPaper.disabled = true;
+      buttonScissors.disabled = true;
+
+    }
   }
 
   buttonPaper.addEventListener("click", () => playRound("paper"));
   buttonRock.addEventListener("click", () => playRound("rock"));
   buttonScissors.addEventListener("click", () => playRound("scissors"));
-}
 
-/*
-let newGame;
-do {
-  playGame()
-  let yesOrNo = prompt("New game? (yes or no)").toLowerCase();
-  if (yesOrNo == "yes") {
-    newGame = true;
-  } else {
-    newGame = false;
-  }
-} while (newGame == true);
-*/
+  buttonNewGame.addEventListener("click", () => {
+    humanScore = 0;
+    computerScore = 0;
+    round = 0;
+
+    paraChoices.textContent = "";
+    paraResult.textContent = "";
+    paraScore.textContent = "New game started!";
+    buttonNewGame.style.display = "none";
+
+    buttonRock.disabled = false;
+    buttonPaper.disabled = false;
+    buttonScissors.disabled = false;
+  })
+}
 
 playGame();
